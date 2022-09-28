@@ -1,23 +1,29 @@
 import React from 'react';
-import Square from './Square';
-import PropTypes from 'prop-types';
-
 const Row = (props) => {
-  const { letters, handleClick, row } = props;
-  const squareElements = letters.map((letter, i) => (
-    <Square key={row + i} row={row} square={i} letter={letter} handleClick={handleClick} />
-  ));
-  return (
-    <div className="row">
-      {squareElements}
-    </div>
-  );
-};
-
-Row.propTypes = {
-  letters: PropTypes.arrayOf(PropTypes.string).isRequired,
-  handleClick: PropTypes.func.isRequired,
-  row: PropTypes.number.isRequired,
-};
-
+    const { id, handleDelete, name, city, zipcode, phoneNumber, isOpen, isAcceptingNewPatients, isAcceptingWalkIns, hasUrgentCare} = props;
+    let formattedTime = props.createdAt;
+    formattedTime = new Date(formattedTime);
+    formattedTime = formattedTime.toLocaleString();
+    let checked = [isOpen, isAcceptingNewPatients, isAcceptingWalkIns, hasUrgentCare];
+    checked.forEach((el, i) => {
+      if(el) checked[i] = String.fromCharCode(0x2714)
+      else checked[i] = String.fromCharCode(0x2716)
+    });
+    // const checkmark = String.fromCharCode(d83dde46);
+    return (
+    <tbody>
+    <tr>
+      <td className="hospitalName">{name}</td>
+      <td>{city}</td>
+      <td>{zipcode}</td>
+      <td>{phoneNumber}</td>
+      <td>{checked[0]}</td>
+      <td>{checked[1]}</td>
+      <td>{checked[2]}</td>
+      <td>{checked[3]}</td>
+      <td>{formattedTime}</td>
+      <td><button type="submit" id="toDelete" value={id} onClick={handleDelete}>Delete</button></td>
+    </tr>
+    </tbody>);
+  };
 export default Row;
